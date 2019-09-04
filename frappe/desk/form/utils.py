@@ -59,6 +59,9 @@ def validate_link():
 @frappe.whitelist()
 def add_comment(reference_doctype, reference_name, content, comment_email):
 	"""allow any logged user to post a comment"""
+	# prevent saving empty comments
+	if content == "<div><br></div>":
+		return
 	doc = frappe.get_doc(dict(
 		doctype = 'Comment',
 		reference_doctype = reference_doctype,
